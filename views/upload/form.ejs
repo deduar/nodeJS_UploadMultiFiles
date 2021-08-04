@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/header'); -%>
+        <title>Home Form</title>
+</head>
+
+<body>
+    <div class="container p-4">
+        <div class="row">
+            <table>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <tr>
+                    <td><label for="vehicle">Vehicle: </label></td>
+                    <td><input type="file" id="vehicle" name="vehicle"></td>
+                </tr>
+                <tr>
+                    <td><label for="vehicle">Equipment: </label></td>
+                    <td><input type="file" id="vehicle" name="vehicle"></td>
+                </tr>
+                <tr>
+                    <td><label for="vehicle">Pack: </label></td>
+                    <td><input type="file" id="vehicle" name="vehicle"></td>
+                </tr>
+                <tr>
+                    <td><label for="vehicle">Cateegory: </label></td>
+                    <td><input type="file" id="vehicle" name="vehicle"></td>
+                </tr>
+                <tr>
+                    <td><label for="vehicle">EquipmentPack: </label></td>
+                    <td><input type="file" id="vehicle" name="vehicle"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="OK"></td>
+                </tr>
+            </form>
+        </table>
+        </div>
+    </div>
+</body>
+
+</html>

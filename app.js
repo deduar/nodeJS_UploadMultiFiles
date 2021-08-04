@@ -16,6 +16,7 @@ app.use(express.json());
 
 // Routes
 app.use('/',require('./routes/main'));
+app.use('/upload',require('./routes/upload'));
 
 //404 handler
 app.use((req,res,next) => {
