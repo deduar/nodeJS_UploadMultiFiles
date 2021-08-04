@@ -15,10 +15,9 @@ module.exports={
            } else if (err) {
               res.send(err);
            }else{
-              res.render('upload/form');
-           }
-           
+              res.json({ status: 'OK'});
+              //res.render('upload/form');
+           } 
         })
-        
      }
 }

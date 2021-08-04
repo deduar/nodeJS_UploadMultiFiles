@@ -9,7 +9,7 @@ app.set('port', 3000);
 app.set('views', path.join(__dirname,'views'));
 app.set('view engine', 'ejs');
 
-// Middelwares
+// Middelwares externas
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -17,6 +17,7 @@ app.use(express.json());
 // Routes
 app.use('/',require('./routes/main'));
 app.use('/upload',require('./routes/upload'));
+app.use('/process',require('./routes/process'));
 
 //404 handler
 app.use((req,res,next) => {
