@@ -8,9 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      countrId: {
-        type: Sequelize.STRING
-      },
       carId: {
         type: Sequelize.STRING
       },
@@ -36,9 +33,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       transmision: {
-        type: Sequelize.STRING
-      },
-      transmitionType: {
         type: Sequelize.STRING
       },
       numSeat: {
