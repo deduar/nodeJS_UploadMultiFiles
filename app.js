@@ -18,6 +18,7 @@ app.use(express.json());
 app.use('/',require('./routes/main'));
 app.use('/upload',require('./routes/upload'));
 app.use('/process',require('./routes/process'));
+app.use('/vehicle',require('./routes/vehicle'));
 
 //404 handler
 app.use((req,res,next) => {

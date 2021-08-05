@@ -47,6 +47,9 @@ module.exports = {
       doors: {
         type: Sequelize.INTEGER
       },
+      year: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

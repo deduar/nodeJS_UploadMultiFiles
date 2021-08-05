@@ -19,7 +19,8 @@ function index(req, res) {
             numSeat: line[10],
             powerCV: line[14],
             powerKW: line[16],
-            doors: line[9]
+            doors: line[9],
+            year: line[82]
         }
         models.Vehicle.create(vehicle);
     }
