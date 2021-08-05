@@ -13,12 +13,12 @@ function consult(req, res) {
     var version = req.body.version;
     var fuel = req.body.fuel;
     //var transmision = req.body.transmision;
-    data = ["1","2"];
-
-    res.json({
-        message: "OK",
-        data: data
-    })
+   
+    models.Vehicle.findAll({attributes: ['model'],group: ['model'] ,where: {make: brand}}).then(result =>{
+        res.json({data: result});
+    }).catch(error => {
+        res.json({message: "Error"});
+    });
 }
 
 module.exports = {

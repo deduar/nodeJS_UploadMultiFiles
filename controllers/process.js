@@ -3,9 +3,9 @@ const models = require('../models');
 
 function index(req, res) {
     var data = fs.readFileSync('./uploads/example.csv', 'utf8');    //File -> data
-    data = data.split("\r\n");
+    data = data.split("\n");
     for (var i = 0; i < data.length; i++) {
-        line = data[i].split(';');
+        line = data[i].split(',');
         var vehicle= {
             carId: line[1],
             make: line[2],
