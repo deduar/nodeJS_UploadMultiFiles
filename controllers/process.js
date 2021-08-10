@@ -5,7 +5,7 @@ function index(req, res) {
     var data = fs.readFileSync('./uploads/example.csv', 'utf8');    //File -> data
     data = data.split("\n");
     for (var i = 0; i < data.length; i++) {
-        line = data[i].split(',');
+        line = data[i].split(';');
         var vehicle= {
             carId: line[1],
             make: line[2],
@@ -14,12 +14,12 @@ function index(req, res) {
             segment: line[5],
             vehicleType: line[6],
             bodyStyle: line[7],
-            fuelType: line[40],
-            transmision: line[42],
+            doors: line[9],
             numSeat: line[10],
+            fuelType: line[12],
             powerCV: line[14],
             powerKW: line[16],
-            doors: line[9],
+            transmision: line[43],
             year: line[82]
         }
         models.Vehicle.create(vehicle);
