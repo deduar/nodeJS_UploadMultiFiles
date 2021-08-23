@@ -15,7 +15,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 // Routes
-app.use('/',require('./routes/main'));
+app.use('/',require('./routes/root'));
 app.use('/upload',require('./routes/upload'));
 app.use('/process',require('./routes/process'));
 app.use('/vehicle',require('./routes/vehicle'));
