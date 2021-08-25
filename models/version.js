@@ -15,8 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Version.init({
     modelId: DataTypes.INTEGER,
-    description: DataTypes.STRING,
-    yearId: DataTypes.INTEGER
+    description: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Version',

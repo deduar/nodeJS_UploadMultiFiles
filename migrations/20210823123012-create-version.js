@@ -14,9 +14,6 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      yearId: {
-        type: Sequelize.INTEGER
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
