@@ -17,14 +17,63 @@ function index(req,res){
     });
 }
 
-function consult(req, res) {
+async function consult(req, res) {
+    var param = {
+        makeId: req.body.brand,
+        patternId: req.body.model,
+        versionId: req.body.version,
+        variation: {
+            fuelId: req.body.variation.fuel,
+            transmissionId: req.body.variation.transmission,
+            body: req.body.variation.body,
+            year: req.body.variation.year,
+            doors: req.body.variation.doors,
+            numSeat: req.body.variation.numSeat,
+            powerCV: req.body.variation.powerCV,
+            powerKW: req.body.variation.powerKW
+        }
+    }
+
+    if(param.makeId){
+        if(param.patternId){
+            if(param.versionId){
+                var variations = await models.Variation.findAll({attributes:['carId','fuelId','transmissionId','yearId','bodyId','numSeat','doors','powerCV','powerKW'],where:{versionId:param.versionId}});
+                if(variations){
+                    var fuel = await models.Fuel.findAll({attributes:['id','description'],where:{id:variations[0].fuelId}});
+                    res.status(200).json({variations,fuel});
+                }
+            }else{
+                var versions = await models.Version.findAll({attributes:['id','description'],where:{modelId:param.patternId}});
+                if(versions){
+                    res.status(200).json(versions);
+                }
+            }
+        }else{
+            var patters = await models.Pattern.findAll({attributes:['id','description'],where:{makeId:param.makeId}});
+            if(patters){
+                res.status(200).json(patters);
+            }
+        }
+    }else{
+        var makes = await models.Make.findAll({attributes:['id','description']});
+        if(makes){
+            res.status(200).json(makes);
+        }
+    }
+    
+    /*
     var brand = req.body.brand;
     var year = req.body.year;
     var model = req.body.model;
     var version = req.body.version;
     var fuel = req.body.fuel;
-   
+    var transmission = req.body.transmission;
+    var body = req.body.body;
+    */
+
     // Logica segun atributos
+/*
+
     if (!brand && !model && !version && !year){
         models.Vehicle.findAll({attributes: [['make','brand']],group: ['make']}).then(result => {
             if(result){
@@ -105,6 +154,8 @@ function consult(req, res) {
             message: "Fail"
         })
     }
+    */
+
 }
 
 function show(req, res) {

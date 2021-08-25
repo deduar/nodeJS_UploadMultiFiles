@@ -5,7 +5,7 @@ async function index(req, res) {
     try {
         var data = fs.readFileSync('./uploads/example.csv', 'utf8');    //File -> data
         data = data.split("\n");
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < data.length; i++) {
             line = data[i].split(';');
             var vehicle = {
                 carId: line[1],
