@@ -6,7 +6,7 @@ async function index(req, res) {
     try {
         var data = fs.readFileSync('./uploads/example.csv', 'utf8');    //File -> data
         data = data.split("\n");
-        for (var i = 0; i < data.length; i++) {
+        for (var i = 0; i < 20; i++) {
             line = data[i].split(';');
             var vehicle = {
                 carId: line[1],
@@ -25,11 +25,26 @@ async function index(req, res) {
                 year: line[82]
             }
 
+            //Buscando carID
+            const findVehicle = await  models.Vehicle.findAll({attributes:['carId'],attributes:['carId'], where:{carId:vehicle.carId}});
+            if(findVehicle.length == 0){
+                await models.Vehicle.create(vehicle);
+            }
 
-            const addVehicle = await models.Vehicle.create(vehicle);
-
+            //Buscando Year
+            const findYear = await models.Year.findAll({where:{year:vehicle.year}});
+            if(findYear.length == 0){
+                var year = {
+                    year: vehicle.year
+                }
+                const addYear = await models.Year.create(year);
+                var yearId = addYear.id;
+            }else{
+                var yearId = findYear[0].id;
+            }
+            
             //Buscando Make
-            const findMake = await models.Make.findAll({where: {description:vehicle.make}, group:['description']});
+            const findMake = await models.Make.findAll({where:{description:vehicle.make},group:['description']});
             if(findMake.length == 0){
                 var make = {
                     description: vehicle.make
@@ -54,16 +69,44 @@ async function index(req, res) {
             }
 
             // Buscando Version (description)
-            const findVersion = await models.Version.findAll({where: {description:vehicle.description}, group:['description']});
+            const findVersion = await models.Version.findAll({where:{description:vehicle.description,yearId:yearId}});
             if(findVersion.length == 0){
                 var version = {
                     modelId: modelId,
-                    description: vehicle.description
+                    description: vehicle.description,
+                    yearId: yearId
                 }
                 const addVersion = await models.Version.create(version);
-                var versionId = addVersion.id;
+                var modelId = addVersion.id;
             }else{
-                var versionId = findVersion[0].id;
+                var modelId = findVersion[0].id;
+            }
+
+            //Buscando Fuel
+            const findFuel = await models.Fuel.findAll({where:{description:vehicle.fuelType}});
+            if(findFuel.length == 0){
+                var fuel = {
+                    description: vehicle.fuelType
+                }
+                await models.Fuel.create(fuel);
+            }
+
+            //Buscando Transmission
+            const findTransmission = await models.Transmission.findAll({where:{description:vehicle.transmision}});
+            if(findTransmission.length == 0){
+                var trasmission = {
+                    description: vehicle.transmision
+                }
+                await models.Transmission.create(trasmission);
+            }
+
+            //Buscando BodyStyle
+            const findBody = await models.Body.findAll({where:{description:vehicle.bodyStyle}});
+            if(findBody.length == 0){
+                var body = {
+                    description: vehicle.bodyStyle
+                }
+                await models.Body.create(body);
             }
 
         }
