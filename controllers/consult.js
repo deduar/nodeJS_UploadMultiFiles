@@ -39,6 +39,7 @@ async function consult(req, res) {
             if(param.versionId){
                 var variations = await models.Variation.findAll({attributes:['carId','fuelId','transmissionId','yearId','bodyId','numSeat','doors','powerCV','powerKW'],where:{versionId:param.versionId}});
                 if(variations){
+                    console.log(variations.length); // 3, 37, 617 -> 2 versions
                     var fuel = await models.Fuel.findAll({attributes:['id','description'],where:{id:variations[0].fuelId}});
                     var transmission = await models.Transmission.findAll({attributes:['id','description'],where:{}})
                     res.status(200).json({variations,fuel});
