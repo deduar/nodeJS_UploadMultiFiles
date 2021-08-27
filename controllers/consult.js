@@ -44,11 +44,11 @@ async function consult(req, res) {
                     var transmission = await models.Transmission.findAll({attributes:['id','description'],where:{id:variation.transmissionId}});
                     var body = await models.Body.findAll({attributes:['id','description'],where:{id:variation.bodyId}});
                     var year = await models.Year.findAll({attributes:['id','year'],where:{id:variation.yearId}});
-                    var door = variation.doors;
-                    var numSeat = variation.numSeat;
+                    var numDoors = variation.doors;
+                    var numSeats = variation.numSeat;
                     var powerCV = variation.powerCV;
                     var powerKW = variation.powerKW;
-                    vars.push({fuel,transmission,body,year,door,numSeat,powerCV,powerKW});
+                    vars.push({fuel,transmission,body,year,numDoors,numSeats,powerCV,powerKW});
                 }
                 res.status(200).json({vars});
                 /*
