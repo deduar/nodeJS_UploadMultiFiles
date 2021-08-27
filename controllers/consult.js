@@ -25,8 +25,8 @@ async function consult(req, res) {
         variation: {
             fuelId: req.body.variation.fuel,
             transmissionId: req.body.variation.transmission,
-            body: req.body.variation.body,
-            year: req.body.variation.year,
+            bodyId: req.body.variation.body,
+            yearId: req.body.variation.year,
             doors: req.body.variation.doors,
             numSeat: req.body.variation.numSeat,
             powerCV: req.body.variation.powerCV,
@@ -38,12 +38,26 @@ async function consult(req, res) {
         if(param.patternId){
             if(param.versionId){
                 var variations = await models.Variation.findAll({attributes:['carId','fuelId','transmissionId','yearId','bodyId','numSeat','doors','powerCV','powerKW'],where:{versionId:param.versionId}});
+                var vars = [];
+                for (const variation of variations){
+                    var fuel = await models.Fuel.findAll({attributes:['id','description'],where:{id:variation.fuelId}});
+                    var transmission = await models.Transmission.findAll({attributes:['id','description'],where:{id:variation.transmissionId}});
+                    var body = await models.Body.findAll({attributes:['id','description'],where:{id:variation.bodyId}});
+                    var year = await models.Year.findAll({attributes:['id','year'],where:{id:variation.yearId}});
+                    var door = variation.doors;
+                    var numSeat = variation.numSeat;
+                    var powerCV = variation.powerCV;
+                    var powerKW = variation.powerKW;
+                    vars.push({fuel,transmission,body,year,door,numSeat,powerCV,powerKW});
+                }
+                res.status(200).json({vars});
+                /*
                 if(variations){
                     console.log(variations.length); // 3, 37, 617 -> 2 versions
                     var fuel = await models.Fuel.findAll({attributes:['id','description'],where:{id:variations[0].fuelId}});
-                    var transmission = await models.Transmission.findAll({attributes:['id','description'],where:{}})
                     res.status(200).json({variations,fuel});
                 }
+                */
             }else{
                 var versions = await models.Version.findAll({attributes:['id','description'],where:{modelId:param.patternId}});
                 if(versions){
