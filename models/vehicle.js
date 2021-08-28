@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     bodyStyle: DataTypes.STRING,
     fuelType: DataTypes.STRING,
     transmision: DataTypes.STRING,
-    numSeat: DataTypes.STRING,
+    numSeat: DataTypes.INTEGER,
     powerCV: DataTypes.INTEGER,
     powerKW: DataTypes.INTEGER,
     doors: DataTypes.INTEGER,

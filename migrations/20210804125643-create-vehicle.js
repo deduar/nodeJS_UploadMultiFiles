@@ -36,7 +36,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       numSeat: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       powerCV: {
         type: Sequelize.INTEGER
