@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     transmissionId: DataTypes.INTEGER,
     yearId: DataTypes.INTEGER,
     bodyId: DataTypes.INTEGER,
-    numSeat: DataTypes.STRING,
+    numSeat: DataTypes.INTEGER,
     doors: DataTypes.INTEGER,
     powerCV: DataTypes.INTEGER,
     powerKW: DataTypes.INTEGER

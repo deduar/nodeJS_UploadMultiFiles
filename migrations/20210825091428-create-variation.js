@@ -27,7 +27,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       numSeat: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       doors: {
         type: Sequelize.INTEGER
