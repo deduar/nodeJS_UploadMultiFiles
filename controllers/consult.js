@@ -67,7 +67,8 @@ async function vars(req,res){
     var params = {
         fuelId: req.body.fuel,
         transmissionId: req.body.transmission,
-        bodyId: req.body.body
+        bodyId: req.body.body,
+        yearId: req.body.year
     }
     var variations = [];
     if(params.fuelId){
@@ -86,6 +87,12 @@ async function vars(req,res){
         var body = await models.Body.findAll({attributes: ['id','description'],where:{id:params.bodyId}});
         if(body){
             variations.push({"body":body});
+        }
+    }
+    if(params.yearId){
+        var year = await models.Year.findAll({attributes: ['id','year'],where:{id:params.yearId}});
+        if(year){
+            variations.push({"year":year});
         }
     }
     res.status(200).json(variations);
