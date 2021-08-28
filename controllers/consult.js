@@ -63,6 +63,34 @@ async function consult(req, res) {
     }
 }
 
+async function vars(req,res){
+    var params = {
+        fuelId: req.body.fuel,
+        transmissionId: req.body.transmission,
+        bodyId: req.body.body
+    }
+    var variations = [];
+    if(params.fuelId){
+        var fuel = await models.Fuel.findAll({attributes: ['id','description'],where:{id:params.fuelId}});
+        if(fuel){
+            variations.push({"fuel":fuel});
+        }
+    }
+    if(params.transmissionId){
+        var transmission = await models.Transmission.findAll({attributes: ['id','description'],where:{id:params.transmissionId}});
+        if(transmission){
+            variations.push({"transmission":transmission});
+        }
+    }
+    if(params.bodyId){
+        var body = await models.Body.findAll({attributes: ['id','description'],where:{id:params.bodyId}});
+        if(body){
+            variations.push({"body":body});
+        }
+    }
+    res.status(200).json(variations);
+}
+
 function show(req, res) {
     const vehicleId = req.params.vehicleId;
     models.Vehicle.findByPk(vehicleId).then(result => {
@@ -84,5 +112,6 @@ function show(req, res) {
 module.exports = {
     index: index,
     consult: consult,
+    vars: vars,
     show: show
 }
