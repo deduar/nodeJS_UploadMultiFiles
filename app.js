@@ -20,6 +20,7 @@ app.use('/upload',require('./routes/upload'));
 app.use('/process',require('./routes/process'));
 app.use('/vehicle',require('./routes/vehicle'));
 app.use('/consult',require('./routes/consult'));
+app.use('/posts',require('./routes/posts'));
 
 //404 handler
 app.use((req,res,next) => {
