@@ -13,7 +13,6 @@ async function index(req, res) {
                 model: line[3],
                 description: line[4],
                 segment: line[5],
-                vehicleType: line[6],
                 bodyStyle: line[7],
                 doors: line[9],
                 numSeat: line[10],
@@ -66,6 +65,18 @@ async function index(req, res) {
                 var modelId = addVersion.id;
             } else {
                 var modelId = findVersion[0].id;
+            }
+
+            //Buscando Segment
+            const findSegment = await models.Segment.findAll({ where: { description: vehicle.segment } });
+            if (findSegment.length == 0) {
+                var segment = {
+                    description: vehicle.segment
+                }
+                const addSegment = await models.Segment.create(segment);
+                var segmentId = addSegment.id;
+            } else {
+                var segmentId = findSegment[0].id;
             }
 
             //Buscando Fuel
@@ -121,6 +132,7 @@ async function index(req, res) {
             if(findVariation.length == 0){
                 var variation = {
                     carId: vehicle.carId,
+                    segmentId: segmentId,
                     versionId: modelId,
                     fuelId: fuelId,
                     transmissionId: transmissionId,
@@ -133,7 +145,7 @@ async function index(req, res) {
                 }
                 await models.Variation.create(variation);
             }
-
+            
         }
         res.send('Migration succesfull');
     } catch (e) {

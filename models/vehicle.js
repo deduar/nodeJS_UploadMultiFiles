@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     model: DataTypes.STRING,
     description: DataTypes.STRING,
     segment: DataTypes.STRING,
-    vehicleType: DataTypes.STRING,
     bodyStyle: DataTypes.STRING,
     fuelType: DataTypes.STRING,
     transmision: DataTypes.STRING,

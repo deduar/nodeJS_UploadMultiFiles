@@ -23,9 +23,6 @@ module.exports = {
       segment: {
         type: Sequelize.STRING
       },
-      vehicleType: {
-        type: Sequelize.STRING
-      },
       bodyStyle: {
         type: Sequelize.STRING
       },

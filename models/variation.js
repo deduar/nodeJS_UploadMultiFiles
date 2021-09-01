@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Variation.init({
     carId: DataTypes.STRING,
     versionId: DataTypes.INTEGER,
+    segmentId: DataTypes.INTEGER,
     fuelId: DataTypes.INTEGER,
     transmissionId: DataTypes.INTEGER,
     yearId: DataTypes.INTEGER,

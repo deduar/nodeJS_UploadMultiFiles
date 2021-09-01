@@ -27,10 +27,11 @@ async function consult(req, res) {
     if (param.makeId) {
         if (param.patternId) {
             if (param.versionId) {
-                var variations = await models.Variation.findAll({ attributes: ['carId', 'fuelId', 'transmissionId', 'yearId', 'bodyId', 'numSeat', 'doors', 'powerCV', 'powerKW'], where: { versionId: param.versionId } });
+                var variations = await models.Variation.findAll({ attributes: ['carId', 'fuelId', 'transmissionId', 'segmentId', 'yearId', 'bodyId', 'numSeat', 'doors', 'powerCV', 'powerKW'], where: { versionId: param.versionId } });
                 var vars = [];
                 if (variations) {
                     for (const variation of variations) {
+                        var segment  = await models.Segment.findAll({ attributes: ['id', 'description'], where: { id: variation.segmentId } });
                         var fuel = await models.Fuel.findAll({ attributes: ['id', 'description'], where: { id: variation.fuelId } });
                         var transmission = await models.Transmission.findAll({ attributes: ['id', 'description'], where: { id: variation.transmissionId } });
                         var body = await models.Body.findAll({ attributes: ['id', 'description'], where: { id: variation.bodyId } });
@@ -39,7 +40,7 @@ async function consult(req, res) {
                         var numSeats = variation.numSeat;
                         var powerCV = variation.powerCV;
                         var powerKW = variation.powerKW;
-                        vars.push({ fuel, transmission, body, year, numDoors, numSeats, powerCV, powerKW });
+                        vars.push({ segment, fuel, transmission, body, year, numDoors, numSeats, powerCV, powerKW });
                     }
                 }
                 res.status(200).json({ vars });
@@ -65,12 +66,20 @@ async function consult(req, res) {
 
 async function vars(req,res){
     var params = {
+        versionId: req.body.version,
         fuelId: req.body.fuel,
         transmissionId: req.body.transmission,
         bodyId: req.body.body,
-        yearId: req.body.year
+        yearId: req.body.year,
+        segmentId: req.body.segment
     }
     var variations = [];
+    if(params.segmentId){
+        var segment = await models.Segment.findAll({attributes: ['id','description'],where:{id:params.segmentId}});
+        if(segment){
+            variations.push({"segment":segment});
+        }
+    }
     if(params.fuelId){
         var fuel = await models.Fuel.findAll({attributes: ['id','description'],where:{id:params.fuelId}});
         if(fuel){

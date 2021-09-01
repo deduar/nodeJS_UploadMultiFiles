@@ -14,6 +14,9 @@ module.exports = {
       versionId: {
         type: Sequelize.INTEGER
       },
+      segmentId: {
+        type: Sequelize.INTEGER
+      },
       fuelId: {
         type: Sequelize.INTEGER
       },
