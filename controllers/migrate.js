@@ -23,34 +23,28 @@ async function index(req, res) {
             var make = post.post_title.split(' ')[0];
             var pattern = post.post_title.split(' ')[1];
             var version = post.post_title.split(' ').slice(3,).join();
+
             models.Make.findAll({ attributes: ['id'], limit: 1, where: sequelize.where(sequelize.fn('LCASE', sequelize.col('description')), 'LIKE', '%' + make + '%') }).then(makeId => {
                 if(makeId.length > 0){
                     console.log(makeId[0].id);
+                    const makeID = makeId[0].id;
+                    models.Pattern.findAll({ attributes: ['id'], limit: 1, where: {makeId:makeID, $and: sequelize.where(sequelize.fn('LCASE', sequelize.col('description')), 'LIKE', '%' + pattern + '%') }}).then(patternId => {
+                        if(patternId.length > 0){
+                            console.log(patternId[0].id);
+                            const patternID = patternId[0].id;
+                            models.Version.findAll({ attributes: ['id'], limit: 1, where: {modelId:patternID, $and: sequelize.where(sequelize.fn('LCASE', sequelize.col('description')), 'LIKE', '%' + version + '%') }}).then(versionId => {
+                                if(versionId.length > 0){
+                                    console.log(versionId[0].id);
+                                }
+                            });
+                        }
+                    });
                 }
             }).catch(error => {
                 console.log(error);
             });
         });
     }
-
-    /*
-    conn.query('SELECT * FROM optnc_posts WHERE `post_type`=\'product\' AND `post_author`!=1', (err, res) => {
-        if(err){
-            console.log("error: ", err);
-        }
-        var post_title_out = [];
-        res.forEach(post => {
-            var post_title = post.post_title.split(' ');
-            models.Make.findAll({attributes:['id'],where:{description:post_title[0]}}).then(result => {
-                if(result.length){
-                    console.log(result[0].id);
-                }
-            }).catch(error => {
-                console.log(error);
-            })
-        }); 
-    });
-    */
 
     res.status(200).json({
         message: "OK migrate"
