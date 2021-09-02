@@ -21,6 +21,8 @@ app.use('/process',require('./routes/process'));
 app.use('/vehicle',require('./routes/vehicle'));
 app.use('/consult',require('./routes/consult'));
 app.use('/posts',require('./routes/posts'));
+app.use('/migrate',require('./routes/migrate'));
+
 
 //404 handler
 app.use((req,res,next) => {
