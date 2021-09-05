@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     powerKW: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Variation',
+    modelName: 'variation',
   });
   return Variation;
 };

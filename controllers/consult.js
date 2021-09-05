@@ -1,7 +1,7 @@
 const models = require('../models');
 
 function index(req, res) {
-    models.Vehicle.findAll().then(result => {
+    models.vehicle.findAll().then(result => {
         if (result) {
             res.status(200).json(result);
         } else {
@@ -27,15 +27,15 @@ async function consult(req, res) {
     if (param.makeId) {
         if (param.patternId) {
             if (param.versionId) {
-                var variations = await models.Variation.findAll({ attributes: ['carId', 'fuelId', 'transmissionId', 'segmentId', 'yearId', 'bodyId', 'numSeat', 'doors', 'powerCV', 'powerKW'], where: { versionId: param.versionId } });
+                var variations = await models.variation.findAll({ attributes: ['carId', 'fuelId', 'transmissionId', 'segmentId', 'yearId', 'bodyId', 'numSeat', 'doors', 'powerCV', 'powerKW'], where: { versionId: param.versionId } });
                 var vars = [];
                 if (variations) {
                     for (const variation of variations) {
-                        var segment  = await models.Segment.findAll({ attributes: ['id', 'description'], where: { id: variation.segmentId } });
-                        var fuel = await models.Fuel.findAll({ attributes: ['id', 'description'], where: { id: variation.fuelId } });
-                        var transmission = await models.Transmission.findAll({ attributes: ['id', 'description'], where: { id: variation.transmissionId } });
-                        var body = await models.Body.findAll({ attributes: ['id', 'description'], where: { id: variation.bodyId } });
-                        var year = await models.Year.findAll({ attributes: ['id', 'year'], where: { id: variation.yearId } });
+                        var segment  = await models.segment.findAll({ attributes: ['id', 'description'], where: { id: variation.segmentId } });
+                        var fuel = await models.fuel.findAll({ attributes: ['id', 'description'], where: { id: variation.fuelId } });
+                        var transmission = await models.transmission.findAll({ attributes: ['id', 'description'], where: { id: variation.transmissionId } });
+                        var body = await models.body.findAll({ attributes: ['id', 'description'], where: { id: variation.bodyId } });
+                        var year = await models.year.findAll({ attributes: ['id', 'year'], where: { id: variation.yearId } });
                         var numDoors = variation.doors;
                         var numSeats = variation.numSeat;
                         var powerCV = variation.powerCV;
@@ -45,19 +45,19 @@ async function consult(req, res) {
                 }
                 res.status(200).json({ vars });
             } else {
-                var versions = await models.Version.findAll({ attributes: ['id', 'description'], where: { modelId: param.patternId } });
+                var versions = await models.version.findAll({ attributes: ['id', 'description'], where: { modelId: param.patternId } });
                 if (versions) {
                     res.status(200).json(versions);
                 }
             }
         } else {
-            var patters = await models.Pattern.findAll({ attributes: ['id', 'description'], where: { makeId: param.makeId } });
+            var patters = await models.pattern.findAll({ attributes: ['id', 'description'], where: { makeId: param.makeId } });
             if (patters) {
                 res.status(200).json(patters);
             }
         }
     } else {
-        var makes = await models.Make.findAll({ attributes: ['id', 'description'] });
+        var makes = await models.make.findAll({ attributes: ['id', 'description'] });
         if (makes) {
             res.status(200).json(makes);
         }
@@ -75,31 +75,31 @@ async function vars(req,res){
     }
     var variations = [];
     if(params.segmentId){
-        var segment = await models.Segment.findAll({attributes: ['id','description'],where:{id:params.segmentId}});
+        var segment = await models.segment.findAll({attributes: ['id','description'],where:{id:params.segmentId}});
         if(segment){
             variations.push({"segment":segment});
         }
     }
     if(params.fuelId){
-        var fuel = await models.Fuel.findAll({attributes: ['id','description'],where:{id:params.fuelId}});
+        var fuel = await models.fuel.findAll({attributes: ['id','description'],where:{id:params.fuelId}});
         if(fuel){
             variations.push({"fuel":fuel});
         }
     }
     if(params.transmissionId){
-        var transmission = await models.Transmission.findAll({attributes: ['id','description'],where:{id:params.transmissionId}});
+        var transmission = await models.transmission.findAll({attributes: ['id','description'],where:{id:params.transmissionId}});
         if(transmission){
             variations.push({"transmission":transmission});
         }
     }
     if(params.bodyId){
-        var body = await models.Body.findAll({attributes: ['id','description'],where:{id:params.bodyId}});
+        var body = await models.body.findAll({attributes: ['id','description'],where:{id:params.bodyId}});
         if(body){
             variations.push({"body":body});
         }
     }
     if(params.yearId){
-        var year = await models.Year.findAll({attributes: ['id','year'],where:{id:params.yearId}});
+        var year = await models.year.findAll({attributes: ['id','year'],where:{id:params.yearId}});
         if(year){
             variations.push({"year":year});
         }
@@ -109,7 +109,7 @@ async function vars(req,res){
 
 function show(req, res) {
     const vehicleId = req.params.vehicleId;
-    models.Vehicle.findByPk(vehicleId).then(result => {
+    models.vehicle.findByPk(vehicleId).then(result => {
         if (result) {
             res.status(200).json(result);
         } else {

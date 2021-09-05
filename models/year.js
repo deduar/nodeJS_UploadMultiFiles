@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     year: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Year',
+    modelName: 'year',
   });
   return Year;
 };

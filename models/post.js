@@ -27,11 +27,12 @@ module.exports = (sequelize, DataTypes) => {
     powerKW: DataTypes.INTEGER,
     doors: DataTypes.INTEGER,
     year: DataTypes.INTEGER,
+    register: DataTypes.STRING,
     imageUrl: DataTypes.STRING,
     userId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Post',
+    modelName: 'post',
   });
   return Post;
 };

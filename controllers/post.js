@@ -3,7 +3,7 @@ const models = require('../models');
 
 // List all Post
 function index(req,res,next){
-    models.Post.findAll().then(result => {
+    models.post.findAll().then(result => {
         res.status(200).json(result);
     }).catch(error => {
         res.status(500).json({
@@ -16,7 +16,7 @@ function index(req,res,next){
 // Show single Post by Id
 function show(req,res,next){
     const id = req.params.id;
-    models.Post.findByPk(id).then(result => {
+    models.post.findByPk(id).then(result => {
         if(result){
             res.status(200).json(result);
         }else{
@@ -51,7 +51,7 @@ function save(req,res,nex){
         imageUrl: req.body.image_url,
         userId: req.body.userId
     };
-    models.Post.create(post).then(result => {
+    models.post.create(post).then(result => {
         res.status(201).json({
             message: "Post created succesfuly",
             post: result
@@ -81,11 +81,12 @@ function update(req,res,next){
         powerKW: req.body.powerKW,
         doors: req.body.doors,
         year: req.body.year,
+        register: req.body.register,
         imageUrl: req.body.image_url,
         userId: req.body.userId
     };
     const userId = 1;
-    models.Post.update(updatePost,{where: {id:id}}).then(result => {
+    models.post.update(updatePost,{where: {id:id}}).then(result => {
         res.status(200).json({
             message: "Post updated successfully",
             post: result
@@ -102,7 +103,7 @@ function update(req,res,next){
 function destroy(req,res,next){
     const id = req.params.id;
     const userId = 1;
-    models.Post.destroy({where:{id:id, userId:userId}}).then(result => {
+    models.post.destroy({where:{id:id, userId:userId}}).then(result => {
         res.status(200).json({
             message: "Post deleted successfully"
         });

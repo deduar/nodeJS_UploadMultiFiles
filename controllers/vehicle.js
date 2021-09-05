@@ -1,7 +1,7 @@
 const models = require('../models');
 
 function index(req, res) {
-    models.Vehicle.findAll().then(result => {
+    modelsvehicle.findAll().then(result => {
         res.status(200).json({
             message: "OK",
             result: result
@@ -16,7 +16,7 @@ function index(req, res) {
 
 function show(req,res,next){
     const id = req.params.id;
-    models.Vehicle.findByPk(id).then(result => {
+    models.vehicle.findByPk(id).then(result => {
         if(result){
             res.status(200).json(result);
         }else{
