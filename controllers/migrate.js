@@ -4,7 +4,66 @@ const { sequelize } = require('../models');
 const { response } = require('express');
 const dbconfig = require(__dirname + '/../config/db.config.json');
 
-async function index(req, res) {
+
+async function index (req,res){
+    try{
+        //Create connectio
+        const conn = await mysql.createConnection({
+            host: dbconfig.HOST,
+            user: dbconfig.USER,
+            password: dbconfig.PASSWORD,
+            database: dbconfig.DB
+        });
+
+        //Make connection
+        await conn.connect(error => {
+            if (error){
+                console.log("Connecton Failed");
+            }else{
+                console.log("Successfully connected to the database.");
+            }
+        });
+
+        //All posts
+        const wp_posts = await conn.query('SELECT * FROM optnc_posts WHERE `post_type`=\'product\' AND `post_author`!=1');
+        //Each post
+        wp_posts[0].forEach(function(post, index_post) {     
+                if(index_post === 3) throw BreakException;
+                conn.query('SELECT meta_key,meta_value FROM `optnc_postmeta` WHERE `post_id`= ' + post.ID).then(post_meta => {
+                    //All post_meta of each postm
+                    //post_meta[0].forEach(async function(meta) {  
+                        //const make = await models.make.findAll({attributes: ['id','description'], where: {description: meta.meta_value}});
+                        //console.log(index_meta,'-',meta.meta_key);
+                        //const model = await models.pattern.findAll({attributes: ['id','description']});
+                        //const version = await models.version.findAll({attributes: ['id','description']});
+                        //const body = await model.body.findAll({attributes: ['id','description']});
+                        //console.log(make[0].description,'-',model[0].description,'-',version[0].description,'-');
+                    //})
+                    post_meta[0].forEach(async function(meta) {
+                        if(meta.meta_key == 'marca'){
+                            var  make_id = await models.make.findAll({attributes: ['id'], where: {description:meta.meta_value}});
+                            if(make_id.length > 0){
+                                var make = make_id[0].id;
+                            }else{
+                                var make = null;
+                            }
+                            console.log(make);
+                        }
+                    });
+                    //console.log('---------');
+                }).catch(error => {
+                    console.log(error);
+                });
+        });
+        res.status(200).json({message: "ok"});
+    }
+    catch(e){
+        res.status(500).json({error: e})
+    }
+}
+
+
+async function index_orig (req, res) {
 
     const conn = await mysql.createConnection({
         host: dbconfig.HOST,
@@ -41,7 +100,12 @@ async function index(req, res) {
                                                     km = element.meta_value
                                                     break;
                                                 case 'ano_matriculacion':
-                                                    ano_matriculacion = element.meta_value
+                                                    //ano_matriculacion = element.meta_value
+                                                    const result = models.year.findAll({attributes:['id'],where: {year:element.meta_value}});
+                                                    if(result.length > 0){
+                                                        ano_matriculacion = result;
+                                                        console.log(ano_matriculacion);
+                                                    }
                                                     break;
                                                 case 'potencia':
                                                     potencia = element.meta_value
@@ -77,6 +141,7 @@ async function index(req, res) {
                                                     break;
                                             }
                                         });
+                                        /*
                                         newPost = {
                                             carId: 'WP_' + post.ID + '_' + post.post_author,
                                             make: resultMakeId[0].id,
@@ -95,8 +160,9 @@ async function index(req, res) {
                                             color: color,
                                             provincia: provincia
                                         }
+                                        */
                                     });
-                                    console.log(newPost);
+                                    //console.log(newPost);
                                 }).catch(error => {
                                     console.log(error)
                                 });
