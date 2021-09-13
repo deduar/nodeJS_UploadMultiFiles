@@ -31,7 +31,7 @@ async function consult(req, res) {
                 var vars = [];
                 if (variations) {
                     for (const variation of variations) {
-                        var segment  = await models.segment.findAll({ attributes: ['id', 'description'], where: { id: variation.segmentId } });
+                        var segment = await models.segment.findAll({ attributes: ['id', 'description'], where: { id: variation.segmentId } });
                         var fuel = await models.fuel.findAll({ attributes: ['id', 'description'], where: { id: variation.fuelId } });
                         var transmission = await models.transmission.findAll({ attributes: ['id', 'description'], where: { id: variation.transmissionId } });
                         var body = await models.body.findAll({ attributes: ['id', 'description'], where: { id: variation.bodyId } });
@@ -64,46 +64,80 @@ async function consult(req, res) {
     }
 }
 
-async function vars(req,res){
+async function vars(req, res) {
     var params = {
         versionId: req.body.version,
         fuelId: req.body.fuel,
         transmissionId: req.body.transmission,
         bodyId: req.body.body,
         yearId: req.body.year,
-        segmentId: req.body.segment
+        segmentId: req.body.segment,
+        colorId: req.body.color,
+
+        allColors: req.body.colors
     }
     var variations = [];
-    if(params.segmentId){
-        var segment = await models.segment.findAll({attributes: ['id','description'],where:{id:params.segmentId}});
-        if(segment){
-            variations.push({"segment":segment});
+
+    // segment & segments
+    if (params.segmentId) {
+        if (params.segmentId == 0) {
+            var segment = await models.segment.findAll({ attributes: ['id', 'description'] });
+        } else {
+            var segment = await models.segment.findAll({ attributes: ['id', 'description'], where: { id: params.segmentId } });
         }
+        variations.push({ segment });
     }
-    if(params.fuelId){
-        var fuel = await models.fuel.findAll({attributes: ['id','description'],where:{id:params.fuelId}});
-        if(fuel){
-            variations.push({"fuel":fuel});
+
+    // fuel & fuels
+    if (params.fuelId) {
+        if (params.fuelId == 0) {
+            var fuel = await models.fuel.findAll({ attributes: ['id', 'description'] });
+        } else {
+            var fuel = await models.fuel.findAll({ attributes: ['id', 'description'], where: { id: params.fuelId } });
         }
+        variations.push({ fuel });
     }
-    if(params.transmissionId){
-        var transmission = await models.transmission.findAll({attributes: ['id','description'],where:{id:params.transmissionId}});
-        if(transmission){
-            variations.push({"transmission":transmission});
+
+    // transmission & transmissions
+    if (params.transmissionId) {
+        if (params.transmissionId == 0) {
+            var transmission = await models.transmission.findAll({ attributes: ['id', 'description'] });
+        } else {
+            var transmission = await models.transmission.findAll({ attributes: ['id', 'description'], where: { id: params.transmissionId } });
         }
+        variations.push({ transmission });
     }
-    if(params.bodyId){
-        var body = await models.body.findAll({attributes: ['id','description'],where:{id:params.bodyId}});
-        if(body){
-            variations.push({"body":body});
+
+    // body & bodys
+    if (params.bodyId) {
+        if (params.bodyId == 0) {
+            var body = await models.body.findAll({ attributes: ['id', 'description'] });
+        } else {
+            var body = await models.body.findAll({ attributes: ['id', 'description'], where: { id: params.bodyId } });
         }
+        variations.push({ body });
     }
-    if(params.yearId){
-        var year = await models.year.findAll({attributes: ['id','year'],where:{id:params.yearId}});
-        if(year){
-            variations.push({"year":year});
+
+    // year & years
+    if (params.yearId) {
+        if (params.bodyId == 0) {
+            var year = await models.year.findAll({ attributes: ['id', 'year'] });
+        } else {
+            var year = await models.year.findAll({ attributes: ['id', 'year'], where: { id: params.yearId } });
         }
+        variations.push({ year });
     }
+
+    // color & colors
+    if (params.colorId) {
+        if (params.colorId == 0) {
+            var color = await models.color.findAll({ attributes: ['id', 'description'] });
+        } else {
+            var color = await models.color.findAll({ attributes: ['id', 'description'], where: { id: params.colorId } });
+        }
+        variations.push({ color });
+    }
+
     res.status(200).json(variations);
 }
 

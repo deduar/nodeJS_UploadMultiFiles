@@ -47,6 +47,8 @@ async function index (req,res){
                             }else{
                                 var make = null;
                             }
+                        }
+                        if (make){
                             console.log(make);
                         }
                     });
