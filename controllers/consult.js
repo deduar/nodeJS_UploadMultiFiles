@@ -19,7 +19,7 @@ function index(req, res) {
 
 async function consult(req, res) {
     var param = {
-        makeId: req.body.brand,
+        makeId: req.body.make,
         patternId: req.body.model,
         versionId: req.body.version
     }

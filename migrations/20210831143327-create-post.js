@@ -20,7 +20,7 @@ module.exports = {
       model: {
         type: Sequelize.INTEGER
       },
-      description: {
+      version: {
         type: Sequelize.INTEGER
       },
       segment: {

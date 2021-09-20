@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     postId: DataTypes.INTEGER,
     make: DataTypes.INTEGER,
     model: DataTypes.INTEGER,
-    description: DataTypes.INTEGER,
+    version: DataTypes.INTEGER,
     segment: DataTypes.STRING,
     bodyStyle: DataTypes.INTEGER,
     fuelType: DataTypes.INTEGER,
