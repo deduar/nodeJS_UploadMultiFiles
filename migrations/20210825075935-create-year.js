@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      year: {
+      description: {
         type: Sequelize.INTEGER
       },
       createdAt: {

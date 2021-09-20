@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Post.init({
     carId: DataTypes.STRING,
+    postId: DataTypes.INTEGER,
     make: DataTypes.INTEGER,
     model: DataTypes.INTEGER,
     description: DataTypes.INTEGER,

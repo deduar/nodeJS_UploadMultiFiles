@@ -11,6 +11,9 @@ module.exports = {
       carId: {
         type: Sequelize.STRING
       },
+      postId: {
+        type: Sequelize.INTEGER
+      },
       make: {
         type: Sequelize.INTEGER
       },

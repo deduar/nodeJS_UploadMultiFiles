@@ -35,7 +35,7 @@ async function consult(req, res) {
                         var fuel = await models.fuel.findAll({ attributes: ['id', 'description'], where: { id: variation.fuelId } });
                         var transmission = await models.transmission.findAll({ attributes: ['id', 'description'], where: { id: variation.transmissionId } });
                         var body = await models.body.findAll({ attributes: ['id', 'description'], where: { id: variation.bodyId } });
-                        var year = await models.year.findAll({ attributes: ['id', 'year'], where: { id: variation.yearId } });
+                        var year = await models.year.findAll({ attributes: ['id', 'description'], where: { id: variation.yearId } });
                         var numDoors = variation.doors;
                         var numSeats = variation.numSeat;
                         var powerCV = variation.powerCV;
@@ -121,9 +121,9 @@ async function vars(req, res) {
     // year & years
     if (params.yearId) {
         if (params.bodyId == 0) {
-            var year = await models.year.findAll({ attributes: ['id', 'year'] });
+            var year = await models.year.findAll({ attributes: ['id', 'description'] });
         } else {
-            var year = await models.year.findAll({ attributes: ['id', 'year'], where: { id: params.yearId } });
+            var year = await models.year.findAll({ attributes: ['id', 'description'], where: { id: params.yearId } });
         }
         variations.push({ year });
     }

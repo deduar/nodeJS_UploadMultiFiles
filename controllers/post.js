@@ -36,6 +36,7 @@ function show(req,res,next){
 function save(req,res,nex){
     const post = {
         carId: req.body.carId,
+        postId: req.body.postId,
         make: req.body.make,
         model: req.body.model,
         description: req.body.description,
@@ -69,6 +70,7 @@ function update(req,res,next){
     const id = req.params.id;
     const updatePost = {
         carId: req.body.carId,
+        postId: req.body.postId,
         make: req.body.make,
         model: req.body.model,
         description: req.body.description,
