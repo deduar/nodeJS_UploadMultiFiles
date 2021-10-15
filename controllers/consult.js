@@ -90,8 +90,15 @@ async function consult_v2(req, res) {
     }
 
     if(params.vehicleTypeId){
-        res.status(200).json("123");
+        if(params.makeId){
+            res.status(200).json({message: "list all models by make && vehicleType"});
+        }else{
+            res.status(200).json({message: "list all make by vehicleType"});
+        }
+    }else{
+        res.status(200).json({message: "list all vehicleType"});
     }
+
 
 
     /*
