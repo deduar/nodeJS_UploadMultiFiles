@@ -11,34 +11,55 @@ module.exports = {
       carId: {
         type: Sequelize.STRING
       },
-      versionId: {
+      makeId: {
+        type: Sequelize.INTEGER
+      },
+      modelId: {
+        type: Sequelize.INTEGER
+      },
+      descriptionId: {
         type: Sequelize.INTEGER
       },
       segmentId: {
         type: Sequelize.INTEGER
       },
-      fuelId: {
+      vehicleTypeId: {
         type: Sequelize.INTEGER
       },
-      transmissionId: {
+      bodyStyleId: {
         type: Sequelize.INTEGER
       },
-      yearId: {
+      fuelTypeId: {
         type: Sequelize.INTEGER
       },
-      bodyId: {
+      transmisionId: {
         type: Sequelize.INTEGER
       },
       numSeat: {
-        type: Sequelize.INTEGER
-      },
-      doors: {
         type: Sequelize.INTEGER
       },
       powerCV: {
         type: Sequelize.INTEGER
       },
       powerKW: {
+        type: Sequelize.INTEGER
+      },
+      doors: {
+        type: Sequelize.INTEGER
+      },
+      introductionDate: {
+        type: Sequelize.INTEGER
+      },
+      endDat: {
+        type: Sequelize.INTEGER
+      },
+      modificationDate: {
+        type: Sequelize.INTEGER
+      },
+      modelYear: {
+        type: Sequelize.INTEGER
+      },
+      modelIntroductionYear: {
         type: Sequelize.INTEGER
       },
       createdAt: {

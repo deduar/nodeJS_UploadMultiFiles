@@ -23,6 +23,9 @@ module.exports = {
       segment: {
         type: Sequelize.STRING
       },
+      vehicleType: {
+        type: Sequelize.STRING
+      },
       bodyStyle: {
         type: Sequelize.STRING
       },
@@ -44,8 +47,20 @@ module.exports = {
       doors: {
         type: Sequelize.INTEGER
       },
-      year: {
-        type: Sequelize.STRING
+      introductionDate: {
+        type: Sequelize.INTEGER
+      },
+      endDat: {
+        type: Sequelize.INTEGER
+      },
+      modificationDate: {
+        type: Sequelize.INTEGER
+      },
+      modelYear: {
+        type: Sequelize.INTEGER
+      },
+      modelIntroductionYear: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

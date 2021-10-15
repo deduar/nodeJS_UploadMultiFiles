@@ -6,21 +6,26 @@ async function index(req, res) {
         var data = fs.readFileSync('./uploads/example.csv', 'utf8');    //File -> data
         data = data.split("\n");
         for (var i = 0; i < data.length; i++) {
-            line = data[i].split(';');
+            line = data[i].split('|');
             var vehicle = {
                 carId: line[1],
                 make: line[2],
                 model: line[3],
                 description: line[4],
                 segment: line[5],
+                vehicleType: line[6],
                 bodyStyle: line[7],
-                doors: line[9],
-                numSeat: line[10],
-                fuelType: line[12],
-                powerCV: line[14],
-                powerKW: line[16],
-                transmision: line[43],
-                year: line[82]
+                doors: line[12],
+                numSeat: line[13],
+                fuelType: line[15],
+                powerCV: line[17],
+                powerKW: line[19],
+                transmision: line[40],
+                introductionDate: line[8].split('-')[0],
+                endDat: line[9].split('-')[0],
+                modificationDate: line[10].split('-')[0],
+                modelYear: line[70],
+                modelIntroductionYear: line[71]
             }
 
             //Buscando carID
@@ -62,9 +67,9 @@ async function index(req, res) {
                     description: vehicle.description
                 }
                 const addVersion = await models.version.create(version);
-                var modelId = addVersion.id;
+                var versionId = addVersion.id;
             } else {
-                var modelId = findVersion[0].id;
+                var versionId = findVersion[0].id;
             }
 
             //Buscando Segment
@@ -86,9 +91,9 @@ async function index(req, res) {
                     description: vehicle.fuelType
                 }
                 const addFuel = await models.fuel.create(fuel);
-                var fuelId = addFuel.id;
+                var fuelTypeId = addFuel.id;
             } else {
-                var fuelId = findFuel[0].id;
+                var fuelTypeId = findFuel[0].id;
             }
 
             //Buscando Transmission
@@ -98,11 +103,11 @@ async function index(req, res) {
                     description: vehicle.transmision
                 }
                 const addTransmission = await models.transmission.create(trasmission);
-                var transmissionId = addTransmission.id;
+                var transmisionId = addTransmission.id;
             } else {
-                var transmissionId = findTransmission[0].id;
+                var transmisionId = findTransmission[0].id;
             }
-
+/*
             //Buscando Year
             const findYear = await models.year.findAll({ where: { year: vehicle.year } });
             if (findYear.length == 0) {
@@ -114,7 +119,7 @@ async function index(req, res) {
             } else {
                 var yearId = findYear[0].id;
             }
-
+*/
             //Buscando Body (bodyStyle)
             const findBody = await models.body.findAll({ where: { description: vehicle.bodyStyle } });
             if (findBody.length == 0) {
@@ -122,26 +127,49 @@ async function index(req, res) {
                     description: vehicle.bodyStyle
                 }
                 const addBody = await models.body.create(body);
-                var bodyId = addBody.id;
+                var bodyStyleId = addBody.id;
             } else {
-                var bodyId = findBody[0].id;
+                var bodyStyleId = findBody[0].id;
             }
 
+            //Buscando VehicleType
+            const findVehicleType = await models.vehicleType.findAll({ where: { v_type: vehicle.vehicleType } });
+            if (findVehicleType.length == 0) {
+                (vehicle.vehicleType == "C") ? desc = "Comercial" : desc = "Particular";
+                var vehicleType = {
+                    v_type: vehicle.vehicleType,
+                    description: desc
+                }
+                const addVehicleType = await models.vehicleType.create(vehicleType);
+                var vehicleTypeId = addVehicleType.id;
+            } else {
+                var vehicleTypeId = findVehicleType[0].id;
+            }
+
+
             //Buscando Variation
-            const findVariation = await models.variation.findAll({where:{versionId:modelId,fuelId:fuelId,transmissionId:transmissionId,yearId: yearId,bodyId:bodyId}});
+            //const findVariation = await models.variation.findAll({where:{versionId:modelId,fuelId:fuelId,transmissionId:transmissionId,yearId: yearId,bodyId:bodyId}});
+            const findVariation = await models.variation.findAll({where:{carId:vehicle.carId}});
             if(findVariation.length == 0){
                 var variation = {
                     carId: vehicle.carId,
+                    makeId: makeId,
+                    modelId: modelId,
+                    descriptionId: versionId,
                     segmentId: segmentId,
-                    versionId: modelId,
-                    fuelId: fuelId,
-                    transmissionId: transmissionId,
-                    yearId: yearId,
-                    bodyId: bodyId,
+                    vehicleTypeId: vehicleTypeId,
+                    bodyStyleId: bodyStyleId,
+                    fuelTypeId: fuelTypeId,
+                    transmisionId: transmisionId,
                     numSeat: vehicle.numSeat,
-                    doors: vehicle.doors,
                     powerCV: vehicle.powerCV,
-                    powerKW: vehicle.powerKW
+                    powerKW: vehicle.powerKW,
+                    doors: vehicle.doors,
+                    introductionDate: vehicle.introductionDate,
+                    endDat: vehicle.endDat,
+                    modificationDate: vehicle.modificationDate,
+                    modelYear: vehicle.modelYear,
+                    modelIntroductionYear: vehicle.modelIntroductionYear
                 }
                 await models.variation.create(variation);
             }

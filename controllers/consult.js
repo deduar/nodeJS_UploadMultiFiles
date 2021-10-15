@@ -17,6 +17,23 @@ function index(req, res) {
     });
 }
 
+async function index_v2(req, res) {
+    models.variation.findAll().then(result => {
+        if (result) {
+            res.status(200).json(result);
+        } else {
+            res.status(404).json({
+                message: "Data not found!"
+            });
+        }
+    }).catch(error => {
+        res.status(500).json({
+            message: "Something went worng",
+            error: error
+        })
+    })
+}
+
 async function consult(req, res) {
     var param = {
         makeId: req.body.make,
@@ -62,6 +79,30 @@ async function consult(req, res) {
             res.status(200).json(makes);
         }
     }
+}
+
+async function consult_v2(req, res) {
+    var params = {
+        vehicleTypeId: req.body.vehicleType,
+        makeId: req.body.make,
+        patternId: req.body.model,
+        descriptionId: req.body.version
+    }
+
+    if(params.vehicleTypeId){
+        res.status(200).json("123");
+    }
+
+
+    /*
+    if (req.body.length > 0) {
+        res.status(200).json({
+            message: "param"
+        })
+    }else{
+        res.status(200).json(req.body.length)
+    }
+    */
 }
 
 async function vars(req, res) {
@@ -161,7 +202,9 @@ function show(req, res) {
 
 module.exports = {
     index: index,
+    index_v2: index_v2,
     consult: consult,
+    consult_v2: consult_v2,
     vars: vars,
     show: show
 }

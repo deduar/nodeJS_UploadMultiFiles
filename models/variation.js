@@ -15,16 +15,23 @@ module.exports = (sequelize, DataTypes) => {
   };
   Variation.init({
     carId: DataTypes.STRING,
-    versionId: DataTypes.INTEGER,
+    makeId: DataTypes.INTEGER,
+    modelId: DataTypes.INTEGER,
+    descriptionId: DataTypes.INTEGER,
     segmentId: DataTypes.INTEGER,
-    fuelId: DataTypes.INTEGER,
-    transmissionId: DataTypes.INTEGER,
-    yearId: DataTypes.INTEGER,
-    bodyId: DataTypes.INTEGER,
+    vehicleTypeId: DataTypes.INTEGER,
+    bodyStyleId: DataTypes.INTEGER,
+    fuelTypeId: DataTypes.INTEGER,
+    transmisionId: DataTypes.INTEGER,
     numSeat: DataTypes.INTEGER,
-    doors: DataTypes.INTEGER,
     powerCV: DataTypes.INTEGER,
-    powerKW: DataTypes.INTEGER
+    powerKW: DataTypes.INTEGER,
+    doors: DataTypes.INTEGER,
+    introductionDate: DataTypes.INTEGER,
+    endDat: DataTypes.INTEGER,
+    modificationDate: DataTypes.INTEGER,
+    modelYear: DataTypes.INTEGER,
+    modelIntroductionYear: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'variation',
