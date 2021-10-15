@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Make.init({
+    vehicleTypeId: DataTypes.INTEGER,
     description: DataTypes.STRING
   }, {
     sequelize,

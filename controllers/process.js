@@ -34,10 +34,25 @@ async function index(req, res) {
                 await models.vehicle.create(vehicle);
             }
 
+            //Buscando VehicleType
+            const findVehicleType = await models.vehicleType.findAll({ where: { v_type: vehicle.vehicleType } });
+            if (findVehicleType.length == 0) {
+                (vehicle.vehicleType == "C") ? desc = "Comercial" : desc = "Particular";
+                var vehicleType = {
+                    v_type: vehicle.vehicleType,
+                    description: desc
+                }
+                const addVehicleType = await models.vehicleType.create(vehicleType);
+                var vehicleTypeId = addVehicleType.id;
+            } else {
+                var vehicleTypeId = findVehicleType[0].id;
+            }
+
             //Buscando Make
             const findMake = await models.make.findAll({ where: { description: vehicle.make }, group: ['description'] });
             if (findMake.length == 0) {
                 var make = {
+                    vehicleTypeId: vehicleTypeId,
                     description: vehicle.make
                 }
                 const addMake = await models.make.create(make);
@@ -107,19 +122,19 @@ async function index(req, res) {
             } else {
                 var transmisionId = findTransmission[0].id;
             }
-/*
-            //Buscando Year
-            const findYear = await models.year.findAll({ where: { year: vehicle.year } });
-            if (findYear.length == 0) {
-                var year = {
-                    year: vehicle.year
-                }
-                const addYear = await models.year.create(year);
-                var yearId = addYear.id;
-            } else {
-                var yearId = findYear[0].id;
-            }
-*/
+            /*
+                        //Buscando Year
+                        const findYear = await models.year.findAll({ where: { year: vehicle.year } });
+                        if (findYear.length == 0) {
+                            var year = {
+                                year: vehicle.year
+                            }
+                            const addYear = await models.year.create(year);
+                            var yearId = addYear.id;
+                        } else {
+                            var yearId = findYear[0].id;
+                        }
+            */
             //Buscando Body (bodyStyle)
             const findBody = await models.body.findAll({ where: { description: vehicle.bodyStyle } });
             if (findBody.length == 0) {
@@ -132,25 +147,10 @@ async function index(req, res) {
                 var bodyStyleId = findBody[0].id;
             }
 
-            //Buscando VehicleType
-            const findVehicleType = await models.vehicleType.findAll({ where: { v_type: vehicle.vehicleType } });
-            if (findVehicleType.length == 0) {
-                (vehicle.vehicleType == "C") ? desc = "Comercial" : desc = "Particular";
-                var vehicleType = {
-                    v_type: vehicle.vehicleType,
-                    description: desc
-                }
-                const addVehicleType = await models.vehicleType.create(vehicleType);
-                var vehicleTypeId = addVehicleType.id;
-            } else {
-                var vehicleTypeId = findVehicleType[0].id;
-            }
-
-
             //Buscando Variation
             //const findVariation = await models.variation.findAll({where:{versionId:modelId,fuelId:fuelId,transmissionId:transmissionId,yearId: yearId,bodyId:bodyId}});
-            const findVariation = await models.variation.findAll({where:{carId:vehicle.carId}});
-            if(findVariation.length == 0){
+            const findVariation = await models.variation.findAll({ where: { carId: vehicle.carId } });
+            if (findVariation.length == 0) {
                 var variation = {
                     carId: vehicle.carId,
                     makeId: makeId,
@@ -173,7 +173,7 @@ async function index(req, res) {
                 }
                 await models.variation.create(variation);
             }
-            
+
         }
         res.send('Migration succesfull');
     } catch (e) {
