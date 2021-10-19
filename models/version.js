@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Version.init({
+    vehicleTypeId: DataTypes.INTEGER,
     modelId: DataTypes.INTEGER,
     description: DataTypes.STRING
   }, {

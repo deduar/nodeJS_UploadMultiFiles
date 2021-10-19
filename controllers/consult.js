@@ -91,25 +91,48 @@ async function consult_v2(req, res) {
 
     if(params.vehicleTypeId){
         if(params.makeId){
-            res.status(200).json({message: "list all models by make && vehicleType"});
+            if(params.patternId){
+                if(params.descriptionId){
+                    var variations = await models.version.findAll({ attributes: ['id', 'description'],  where: { vehicleTypeId: params.vehicleTypeId } });
+                    res.status(200).json("search CarID")
+                }
+                var versions = await models.version.findAll({ attributes: ['id', 'description'],  where: { vehicleTypeId: params.vehicleTypeId } });
+                res.status(200).json(versions)
+            }else {
+                var patterns = await models.pattern.findAll({ attributes: ['id', 'description'],  where: { vehicleTypeId: params.vehicleTypeId } });
+                res.status(200).json(patterns)
+            }
         }else{
-            res.status(200).json({message: "list all make by vehicleType"});
+            var makes = await models.make.findAll({ attributes: ['id', 'description'],  where: { vehicleTypeId: params.vehicleTypeId } });
+            res.status(200).json(makes);
         }
     }else{
-        res.status(200).json({message: "list all vehicleType"});
+        var vehicleTypes = await models.vehicleType.findAll({ attributes: ['id', 'v_type', 'description'] });
+        res.status(200).json(vehicleTypes);
     }
-
 
 
     /*
-    if (req.body.length > 0) {
-        res.status(200).json({
-            message: "param"
-        })
+    if(params.vehicleTypeId){
+        if(params.makeId){
+            var patterns = await models.pattern.findAll({ attributes: ['id', 'description'],  where: { vehicleTypeId: params.vehicleTypeId } });
+            if (patterns) {
+                res.status(200).json(patterns);
+            }
+        }else{
+            var makes = await models.make.findAll({ attributes: ['id', 'description'],  where: { vehicleTypeId: params.vehicleTypeId } });
+            if (makes) {
+                res.status(200).json(makes);
+            }
+        }
     }else{
-        res.status(200).json(req.body.length)
+        var vehicleTypes = await models.vehicleType.findAll({ attributes: ['id', 'v_type', 'description'] });
+        if (vehicleTypes) {
+            res.status(200).json(vehicleTypes);
+        }
     }
-    */
+*/
+
 }
 
 async function vars(req, res) {

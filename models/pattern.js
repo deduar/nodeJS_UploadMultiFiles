@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Pattern.init({
+    vehicleTypeId: DataTypes.INTEGER,
     makeId: DataTypes.INTEGER,
     description: DataTypes.STRING
   }, {

@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      vehicleTypeId: {
+        type: Sequelize.INTEGER
+      },
       modelId: {
         type: Sequelize.INTEGER
       },

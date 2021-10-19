@@ -49,7 +49,7 @@ async function index(req, res) {
             }
 
             //Buscando Make
-            const findMake = await models.make.findAll({ where: { description: vehicle.make }, group: ['description'] });
+            const findMake = await models.make.findAll({  where: { description: vehicle.model }, group: ['description']  });
             if (findMake.length == 0) {
                 var make = {
                     vehicleTypeId: vehicleTypeId,
@@ -65,6 +65,7 @@ async function index(req, res) {
             const findModel = await models.pattern.findAll({ where: { description: vehicle.model }, group: ['description'] });
             if (findModel.length == 0) {
                 var patter = {
+                    vehicleTypeId: vehicleTypeId,
                     makeId: makeId,
                     description: vehicle.model
                 }
@@ -78,6 +79,7 @@ async function index(req, res) {
             const findVersion = await models.version.findAll({ where: { description: vehicle.description } });
             if (findVersion.length == 0) {
                 var version = {
+                    vehicleTypeId: vehicleTypeId,
                     modelId: modelId,
                     description: vehicle.description
                 }
