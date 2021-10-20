@@ -94,19 +94,27 @@ async function consult_v2(req, res) {
             if(params.patternId){
                 if(params.descriptionId){
                     var variations = await models.version.findAll({ attributes: ['id', 'description'],  where: { vehicleTypeId: params.vehicleTypeId } });
-                    res.status(200).json("search CarID")
+                        res.status(200).json({message: "search CarID"})
                 }
-                var versions = await models.version.findAll({ attributes: ['id', 'description'],  where: { vehicleTypeId: params.vehicleTypeId } });
-                res.status(200).json(versions)
+                // list version
+                //var versions = await models.version.findAll({ attributes: ['id', 'description'],  where: { vehicleTypeId: params.vehicleTypeId } });
+                //res.status(200).json(versions)
+                //
+                // list years
+                var years = await models.variation.findAll({ attributes:['id', 'endDat'],  where:{vehicleTypeId:params.vehicleTypeId} });
+                res.status(200).json(years)
             }else {
-                var patterns = await models.pattern.findAll({ attributes: ['id', 'description'],  where: { vehicleTypeId: params.vehicleTypeId } });
+                // list model (pattren)
+                var patterns = await models.pattern.findAll({ attributes:['id', 'description'], where:{vehicleTypeId:params.vehicleTypeId} });
                 res.status(200).json(patterns)
             }
         }else{
+            // list make
             var makes = await models.make.findAll({ attributes: ['id', 'description'],  where: { vehicleTypeId: params.vehicleTypeId } });
             res.status(200).json(makes);
         }
     }else{
+        // list vehicleType
         var vehicleTypes = await models.vehicleType.findAll({ attributes: ['id', 'v_type', 'description'] });
         res.status(200).json(vehicleTypes);
     }

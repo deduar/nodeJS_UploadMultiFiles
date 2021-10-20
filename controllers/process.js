@@ -1,5 +1,6 @@
 const fs = require('fs');
 const models = require('../models');
+const { Op } = require('sequelize');
 
 async function index(req, res) {
     try {
@@ -28,7 +29,7 @@ async function index(req, res) {
                 modelIntroductionYear: line[71]
             }
 
-            //Buscando carID
+            //Buscando carID para vehiche (raw data)
             const findVehicle = await models.vehicle.findAll({ attributes: ['carId'], attributes: ['carId'], where: { carId: vehicle.carId } });
             if (findVehicle.length == 0) {
                 await models.vehicle.create(vehicle);
@@ -49,7 +50,8 @@ async function index(req, res) {
             }
 
             //Buscando Make
-            const findMake = await models.make.findAll({  where: { description: vehicle.model }, group: ['description']  });
+            const findMake = await models.make.findAll({ 
+                where: {[Op.and]:[{description:vehicle.make},{vehicleTypeId:vehicleTypeId}]} });
             if (findMake.length == 0) {
                 var make = {
                     vehicleTypeId: vehicleTypeId,
@@ -62,7 +64,8 @@ async function index(req, res) {
             }
 
             // Buscando Model (Pattern)
-            const findModel = await models.pattern.findAll({ where: { description: vehicle.model }, group: ['description'] });
+            const findModel = await models.pattern.findAll({ 
+                where: {[Op.and]:[{description:vehicle.model},{vehicleTypeId:vehicleTypeId}]} });
             if (findModel.length == 0) {
                 var patter = {
                     vehicleTypeId: vehicleTypeId,
@@ -76,7 +79,8 @@ async function index(req, res) {
             }
 
             // Buscando Version (description)
-            const findVersion = await models.version.findAll({ where: { description: vehicle.description } });
+            const findVersion = await models.version.findAll({ 
+                where: {[Op.and]:[{description:vehicle.description},{vehicleTypeId:vehicleTypeId}]} });
             if (findVersion.length == 0) {
                 var version = {
                     vehicleTypeId: vehicleTypeId,
@@ -152,7 +156,8 @@ async function index(req, res) {
             //Buscando Variation
             //const findVariation = await models.variation.findAll({where:{versionId:modelId,fuelId:fuelId,transmissionId:transmissionId,yearId: yearId,bodyId:bodyId}});
             const findVariation = await models.variation.findAll({ where: { carId: vehicle.carId } });
-            if (findVariation.length == 0) {
+            //if (findVariation.length == 0) {
+
                 var variation = {
                     carId: vehicle.carId,
                     makeId: makeId,
@@ -174,7 +179,7 @@ async function index(req, res) {
                     modelIntroductionYear: vehicle.modelIntroductionYear
                 }
                 await models.variation.create(variation);
-            }
+            //}
 
         }
         res.send('Migration succesfull');
